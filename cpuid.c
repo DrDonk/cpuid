@@ -570,19 +570,56 @@ void cpuid_dump_etallen(struct cpu_regs_t *regs, struct cpuid_state_t *state, __
 	       regs->edx);
 }
 
-void cpuid_dump_vmware(struct cpu_regs_t *regs, struct cpuid_state_t *state, __unused_variable BOOL indexed)
+static const char *uint32_to_vmware(char *buffer, uint32_t val)
 {
-	char buffer[33];
-	/* Not sure what VMware's format is for that. */
-	if (indexed)
-		return;
-	/* Skip the hypervisor leaf. */
-	if ((0xF0000000 & state->last_leaf.eax) == 0x40000000)
-		return;
-	printf("cpuid.%x.eax = \"%s\"\n", state->last_leaf.eax, uint32_to_binary(buffer, regs->eax));
-	printf("cpuid.%x.ebx = \"%s\"\n", state->last_leaf.eax, uint32_to_binary(buffer, regs->ebx));
-	printf("cpuid.%x.ecx = \"%s\"\n", state->last_leaf.eax, uint32_to_binary(buffer, regs->ecx));
-	printf("cpuid.%x.edx = \"%s\"\n", state->last_leaf.eax, uint32_to_binary(buffer, regs->edx));
+    /* Print string in delimited format used by VMware */
+    /* "----:----:----:----:----:----:----:----"       */
+
+    int i = 0;
+    int j = 38;
+
+    buffer[39] = 0;
+    for (i = 0; i < 32; i++) {
+        if (i % 4 == 0 && i != 0) {
+            buffer[j] = ':';
+            j--;
+        }
+        buffer[j] = (val & (1 << i)) != 0 ? '1' : '0';
+        j--;
+    }
+    return buffer;
+}
+
+void cpuid_dump_vmware(struct cpu_regs_t *regs, struct cpuid_state_t *state, BOOL indexed)
+{
+    char buffer[40];
+    char *suffix = "";
+    int width = 0;
+
+    /* Skip the hypervisor leaf. */
+    if ((0xF0000000 & state->last_leaf.eax) == 0x40000000)
+        return;
+
+    /* Suffix .amd if CPU vendorAuthenticAMD */
+    if (state->vendor == 2)
+        suffix = ".amd";
+
+    /* Added indexed leaves e.g. 4.4 */
+    if (!indexed) {
+        if ((0xF0000000 & state->last_leaf.eax) != 0x80000000)
+            width = 7;
+
+        printf("cpuid.%x.eax%-*s = \"%s\"\n", state->last_leaf.eax, width, suffix, uint32_to_vmware(buffer, regs->eax));
+        printf("cpuid.%x.ebx%-*s = \"%s\"\n", state->last_leaf.eax, width, suffix, uint32_to_vmware(buffer, regs->ebx));
+        printf("cpuid.%x.ecx%-*s = \"%s\"\n", state->last_leaf.eax, width, suffix, uint32_to_vmware(buffer, regs->ecx));
+        printf("cpuid.%x.edx%-*s = \"%s\"\n", state->last_leaf.eax, width, suffix, uint32_to_vmware(buffer, regs->edx));
+    }
+    else {
+        printf("cpuid.%x.%x.eax%s      = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->eax));
+        printf("cpuid.%x.%x.ebx%s      = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->ebx));
+        printf("cpuid.%x.%x.ecx%s      = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->ecx));
+        printf("cpuid.%x.%x.edx%s      = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->edx));
+    }
 }
 
 /* vim: set ts=4 sts=4 sw=4 noet: */
