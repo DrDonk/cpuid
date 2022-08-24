@@ -106,7 +106,7 @@ void thread_init_native(void)
 #endif
 }
 
-uint32_t thread_count_native(struct cpuid_state_t *state)
+uint32_t thread_count_native(__attribute__((unused)) struct cpuid_state_t *state)
 {
 #if defined(TARGET_OS_MACOSX)
 	uint32_t count;
