@@ -31,3 +31,4 @@
 /samples/
 /cmake-build-debug/
 /bin/
+/zig-cache/
