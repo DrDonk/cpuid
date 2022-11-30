@@ -367,6 +367,13 @@ int main(int argc, char **argv)
 		case DUMP_FORMAT_ETALLEN:
 			printf("CPU %d:\n", c);
 			break;
+        case DUMP_FORMAT_VMWARE:
+            printf("#                                     Bit Position\n");
+            printf("#                        3           2            1           0\n");
+            printf("#                       1098:7654:3210:9876:5432:1098:7654:3210\n");
+            printf("# EAX/ECX Registers     ---------------------------------------\n");
+
+            break;
 		}
 		run_cpuid(&state, do_dump);
 	}
