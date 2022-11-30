@@ -147,7 +147,7 @@ const struct cpuid_leaf_handler_index_t dump_handlers[] =
 	{0x00000020, handle_dump_until_eax},
 
 	/* Hypervisor levels */
-	{0x40000000, handle_dump_base},
+//	{0x40000000, handle_dump_base},
 
 	/* Extended levels */
 	{0x80000000, handle_dump_base},
@@ -155,10 +155,10 @@ const struct cpuid_leaf_handler_index_t dump_handlers[] =
 	{0x80000020, handle_dump_ext_20},
 
 	/* Transmeta leaves */
-	{0x80860000, handle_dump_base},
+//	{0x80860000, handle_dump_base},
 
 	/* Centaur leaves */
-	{0xc0000000, handle_dump_base},
+//	{0xc0000000, handle_dump_base},
 
 	{0, 0}
 };
@@ -229,15 +229,15 @@ const struct cpuid_leaf_handler_index_t decode_handlers[] =
 	//{0x80000020, handle_ext_amd_mem_qos},
 
 	/* Transmeta levels */
-	{0x80860000, handle_tmta_base},
-	{0x80860003, handle_tmta_cmsinfo},
-	{0x80860004, handle_tmta_cmsinfo},
-	{0x80860005, handle_tmta_cmsinfo},
-	{0x80860006, handle_tmta_cmsinfo},
-
-	/* Centaur levels */
-	{0xc0000000, handle_centaur_base},
-	{0xc0000001, handle_features},
+//	{0x80860000, handle_tmta_base},
+//	{0x80860003, handle_tmta_cmsinfo},
+//	{0x80860004, handle_tmta_cmsinfo},
+//	{0x80860005, handle_tmta_cmsinfo},
+//	{0x80860006, handle_tmta_cmsinfo},
+//
+//	/* Centaur levels */
+//	{0xc0000000, handle_centaur_base},
+//	{0xc0000001, handle_features},
 
 	{0, 0}
 };
