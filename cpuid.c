@@ -592,7 +592,7 @@ static const char *uint32_to_vmware(char *buffer, uint32_t val)
     return buffer;
 }
 
-void cpuid_dump_vmware(struct cpu_regs_t *regs, struct cpuid_state_t *state, BOOL indexed) {
+void cpuid_dump_vmware(struct cpu_regs_t *regs, struct cpuid_state_t *state, __unused_variable BOOL indexed) {
     char buffer[40];
     char *suffix = "";
     int width = 0;
