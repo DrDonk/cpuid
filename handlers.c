@@ -2048,7 +2048,7 @@ static void handle_dump_ext_20(struct cpu_regs_t *regs, struct cpuid_state_t *st
 }
 
 /* EAX = 8086 0000 */
-static void handle_tmta_base(struct cpu_regs_t *regs, struct cpuid_state_t *state)
+__unused_variable static void handle_tmta_base(struct cpu_regs_t *regs, struct cpuid_state_t *state)
 {
 	char buf[13] ALIGNED(4);
 	size_t i;
@@ -2081,7 +2081,7 @@ static void handle_tmta_base(struct cpu_regs_t *regs, struct cpuid_state_t *stat
 }
 
 /* EAX = 8086 0003 through EAX = 8086 0006 */
-static void handle_tmta_cmsinfo(struct cpu_regs_t *regs, struct cpuid_state_t *state)
+__unused_variable static void handle_tmta_cmsinfo(struct cpu_regs_t *regs, struct cpuid_state_t *state)
 {
 	uint32_t base = (state->last_leaf.eax - 0x80860003) * 16;
 
@@ -2104,7 +2104,7 @@ static void handle_tmta_cmsinfo(struct cpu_regs_t *regs, struct cpuid_state_t *s
 }
 
 /* EAX = c000 0000 */
-static void handle_centaur_base(struct cpu_regs_t *regs, struct cpuid_state_t *state)
+__unused_variable static void handle_centaur_base(struct cpu_regs_t *regs, struct cpuid_state_t *state)
 {
 	state->curmax = regs->eax;
 
