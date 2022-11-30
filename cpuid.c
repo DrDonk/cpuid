@@ -606,8 +606,7 @@ void cpuid_dump_vmware(struct cpu_regs_t *regs, struct cpuid_state_t *state, BOO
         suffix = "";
     }
 
-    /* Default to indexed leaf version for consistency
-    /* Added indexed leaves e.g. 4.4 */
+    /* Default to indexed leaf version for consistency */
     printf("cpuid.%x.%x.eax%s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->eax));
     printf("cpuid.%x.%x.ebx%s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->ebx));
     printf("cpuid.%x.%x.ecx%s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->ecx));
