@@ -25,6 +25,8 @@
 
 #include <stdio.h>
 #include <string.h>
+
+typedef struct string string;
 #ifdef __linux__
 #include <errno.h>
 #include <unistd.h>
@@ -590,27 +592,31 @@ static const char *uint32_to_vmware(char *buffer, uint32_t val)
     return buffer;
 }
 
-void cpuid_dump_vmware(struct cpu_regs_t *regs, struct cpuid_state_t *state, BOOL indexed)
-{
+void cpuid_dump_vmware(struct cpu_regs_t *regs, struct cpuid_state_t *state, BOOL indexed) {
     char buffer[40];
     char *suffix = "";
+    int width = 0;
 
     /* Skip the hypervisor leaf. */
-//    if ((0xF0000000 & state->last_leaf.eax) == 0x40000000)
-//        return;
+    if ((0xF0000000 & state->last_leaf.eax) == 0x40000000)
+        return;
 
-    /* Suffix .amd if CPU vendorAuthenticAMD */
-    if (state->vendor == VENDOR_AMD) {
+    /* Suffix .amd if CPU vendor AuthenticAMD */
+    if (state->vendor == 2)
         suffix = ".amd";
-    } else {
-        suffix = "";
-    }
 
-    /* Default to indexed leaf version for consistency */
-    printf("cpuid.%x.%x.eax%s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->eax));
-    printf("cpuid.%x.%x.ebx%s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->ebx));
-    printf("cpuid.%x.%x.ecx%s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->ecx));
-    printf("cpuid.%x.%x.edx%s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, suffix, uint32_to_vmware(buffer, regs->edx));
+    // Build a padding width based on 0-f, 10-ff and 80000000+
+    if ((0xF0000000 & state->last_leaf.eax) != 0x80000000)
+        width = 6;
+    if (state->last_leaf.eax < 16)
+        width = 7;
+
+    // Print VMware strings as fully qualified by eax/ecx input registers
+    printf("cpuid.%x.%x.eax%-*s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, width, suffix, uint32_to_vmware(buffer, regs->eax));
+    printf("cpuid.%x.%x.ebx%-*s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, width, suffix, uint32_to_vmware(buffer, regs->ebx));
+    printf("cpuid.%x.%x.ecx%-*s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, width, suffix, uint32_to_vmware(buffer, regs->ecx));
+    printf("cpuid.%x.%x.edx%-*s = \"%s\"\n", state->last_leaf.eax, state->last_leaf.ecx, width, suffix, uint32_to_vmware(buffer, regs->edx));
+
 }
 
 /* vim: set ts=4 sts=4 sw=4 noet: */
