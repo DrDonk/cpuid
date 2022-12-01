@@ -30,5 +30,4 @@
 /cpuid.exe
 /samples/
 /cmake-build-debug/
-/bin/
 /zig-cache/
