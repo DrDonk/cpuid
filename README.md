@@ -1,3 +1,7 @@
+Modifications by Dave Parsons
+
+Properly dump VMware format in aligned VMX file style with CPUID sub-leaves correctly added.
+
 CPUID [![Build status](https://github.com/tycho/cpuid/workflows/CI/badge.svg)](https://github.com/tycho/cpuid/actions) [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 =======
 
