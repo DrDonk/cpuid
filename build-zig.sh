@@ -3,7 +3,7 @@
 export CC="zig cc -Wno-unused-command-line-argument"
 make CC="$CC" clean
 make CC="$CC"
-mv -v cpuid ./bin/darwin/cpuid
+mv -v cpuid ./bin/macos/cpuid
 make CC="$CC" clean
 export CC="zig cc -Wno-unused-command-line-argument -target x86_64-linux-musl"
 make CC="$CC"
