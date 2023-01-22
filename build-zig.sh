@@ -5,7 +5,7 @@ make clean
 make
 mv -v cpuid ./bin/darwin/cpuid
 make clean
-export CC="zig cc -target x86_64-linux-gnu"
+export CC="zig cc -target x86_64-linux-musl"
 make CC="$CC"
 mv -v cpuid ./bin/linux/cpuid
 make clean

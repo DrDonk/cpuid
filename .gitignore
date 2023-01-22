@@ -21,6 +21,7 @@
 # Intermediate objects
 *.d
 *.o
+*.pdb
 /.cflags
 /build.h
 /license.h
