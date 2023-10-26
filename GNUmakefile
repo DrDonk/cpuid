@@ -148,7 +148,7 @@ $(BINARY): $(OBJECTS)
 clean:
 	$(QUIET)rm -f .cflags
 	$(QUIET)rm -f $(BINARY)
-	$(QUIET)rm -f $(OBJECTS) build.h license.h
+	$(QUIET)rm -f $(OBJECTS)
 	$(QUIET)rm -f $(OBJECTS:.o=.d)
 
 ifdef NO_INLINE_DEPGEN
@@ -166,12 +166,12 @@ else
 endif
 
 build.h: .force-regen
-	$(QUIET_GEN)tools/build.pl build.h
+	#$(QUIET_GEN)tools/build.pl build.h
 
 .PHONY: .force-regen
 
 license.h: LICENSE
-	$(QUIET_GEN)tools/license.pl LICENSE license.h
+	#$(QUIET_GEN)tools/license.pl LICENSE license.h
 
 version.o: license.h build.h
 

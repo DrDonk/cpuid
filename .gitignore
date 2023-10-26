@@ -23,8 +23,8 @@
 *.o
 *.pdb
 /.cflags
-/build.h
-/license.h
+#/build.h
+#/license.h
 
 # Output binaries
 /cpuid
