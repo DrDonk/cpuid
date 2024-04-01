@@ -147,7 +147,7 @@ const struct cpuid_leaf_handler_index_t dump_handlers[] =
 	{0x00000020, handle_dump_until_eax},
 
 	/* Hypervisor levels */
-//	{0x40000000, handle_dump_base},
+	{0x40000000, handle_dump_base},
 
 	/* Extended levels */
 	{0x80000000, handle_dump_base},
